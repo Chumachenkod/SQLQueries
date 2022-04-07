@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from app.views import index, camera, opencv_camera
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('index/', index),
+    path('camera/', camera),
+    path('opencv/', opencv_camera)
 ]
