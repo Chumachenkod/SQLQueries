@@ -7,9 +7,10 @@ name = "pypi"
 opencv-python = "*"
 opencv-contrib-python = "*"
 django = "*"
-celery = "*"
-redis = "*"
 deepface = "*"
+psycopg2-binary = "*"
+django-rest-framework = "*"
+jinja2 = "*"
 
 [dev-packages]
 

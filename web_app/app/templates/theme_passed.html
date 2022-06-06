@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'header.html' %}
+
+<div class="custom_modal" id="task_modal_description">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" onclick="modal_close()"></button>
+            </div>
+            <div class="modal-body">
+                <div id="task_body_description">
+                </div>
+                <hr>
+                <div id="task_body_script">
+                </div>
+                <hr>
+                <div id="task_body_grade">
+                    <form>
+                        <p>Критерії:</p>
+                        <input type="checkbox" id="is_work" onclick="return false;">
+                        <label for="is_work">Скрипт працює</label>
+                        <br>
+
+                        <input type="checkbox" id="count_of_lines" onclick="return false;">
+                        <label for="count_of_lines">Кількість рядків збігається</label>
+                        <br>
+
+                        <input type="checkbox" id="output" onclick="return false;">
+                        <label for="output">Результат збігається</label>
+                        <br>
+
+                        <input type="checkbox" id="keywords" onclick="return false;">
+                        <label for="keywords">Використані ключові слова</label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="width: calc(100% - 300px)" class="mx-3">
+    <div>
+        {% if complete %}
+        <p for="is_work">Тема сдана</p>
+        {% else %}
+        <p for="is_work">Тема не сдана</p>
+        {% endif %}
+        <p>Оцінка за тему: {{ current_grade }} / {{ max_grade }} балу/ів</p>
+        <p>Завдання:</p>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+        {% for task in tasks %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Завдання: {{ forloop.counter }} ({{ task.grade }} балл/ов)</h5>
+                    <p class="card-text">{{ task.description }}</p>
+                </div>
+                <button id={{ task.id }} class="btn btn-primary w-25 m-2" onclick="task_description(event)">Детальніше
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+</body>
+<script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function task_description(event) {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/grade_task/?task_id=" + event.target.id,
+            data: {
+                csrfmiddlewaretoken: getCookie('csrftoken')
+            },
+            error: function (data, textStatus, xhr) {
+                alert("Что-то пошло не по плану, попробуйте позже.")
+            },
+            success: function (data, textStatus, xhr) {
+                document.getElementById("exampleModalLabel").textContent = event.target.parentElement.childNodes[1].childNodes[1].textContent
+                document.getElementById("task_body_description").textContent = "Опис: " + data["description"]
+                document.getElementById("task_body_script").textContent = "Скрипт: " + data["user_script"]
+
+                document.getElementById("is_work").checked = data["grade"].is_work ? true : false
+                document.getElementById("count_of_lines").checked = data["grade"].count_of_lines ? true : false
+                document.getElementById("output").checked = data["grade"].output ? true : false
+                document.getElementById("keywords").checked = data["grade"].keywords ? true : false
+            }
+        });
+        $('#task_modal_description').addClass('modal_active')
+    }
+
+    function modal_close() {
+        $('#task_modal_description').removeClass('modal_active')
+    }
+</script>
+</html>

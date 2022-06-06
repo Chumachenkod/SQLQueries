@@ -1,0 +1,182 @@
+[
+  {
+    "model": "trade.city",
+    "pk": 1,
+    "fields": {
+      "name": "Киев"
+    }
+  },
+  {
+    "model": "trade.city",
+    "pk": 2,
+    "fields": {
+      "name": "Харьков"
+    }
+  },
+
+  {
+    "model": "trade.client",
+    "pk": 1,
+    "fields": {
+      "last_name": "Чумаченко",
+      "phone": "0668091721",
+      "city_id": 1
+    }
+  },
+  {
+    "model": "trade.client",
+    "pk": 2,
+    "fields": {
+      "last_name": "Евтушенко",
+      "phone": "0502986834",
+      "city_id": 2
+    }
+  },
+  {
+    "model": "trade.client",
+    "pk": 3,
+    "fields": {
+      "last_name": "Тарасенко",
+      "phone": "0953656034",
+      "city_id": null
+    }
+  },
+
+  {
+    "model": "trade.maker",
+    "pk": 1,
+    "fields": {
+      "name": "test_maker",
+      "phone": "0123456789",
+      "address": "test_address",
+      "city_id": 1
+    }
+  },
+
+  {
+    "model": "trade.tovar",
+    "pk": 1,
+    "fields": {
+      "name": "Ванная",
+      "sort": 1,
+      "price": 1000,
+      "material": "Керамика",
+      "maker_id": 1
+    }
+  },
+  {
+    "model": "trade.tovar",
+    "pk": 2,
+    "fields": {
+      "name": "стол книжный",
+      "sort": 2,
+      "price": 1100,
+      "material": "дерево",
+      "maker_id": 1
+    }
+  },
+  {
+    "model": "trade.tovar",
+    "pk": 3,
+    "fields": {
+      "name": "стул большой",
+      "sort": 1,
+      "price": 400,
+      "material": "дерево",
+      "maker_id": 1
+    }
+  },
+  {
+    "model": "trade.tovar",
+    "pk": 4,
+    "fields": {
+      "name": "диван красный",
+      "sort": 3,
+      "price": 100,
+      "material": "кожа",
+      "maker_id": 1
+    }
+  },
+  {
+    "model": "trade.tovar",
+    "pk": 5,
+    "fields": {
+      "name": "кровать двуспальная",
+      "sort": 1,
+      "price": 1200,
+      "material": "дерево",
+      "maker_id": 1
+    }
+  },
+
+  {
+    "model": "trade.sale",
+    "pk": 1,
+    "fields": {
+      "date": "2020-07-07",
+      "quantity": 1,
+      "client_id": 2,
+      "tovar_id": 3
+    }
+  },
+  {
+    "model": "trade.sale",
+    "pk": 2,
+    "fields": {
+      "date": "2021-01-07",
+      "quantity": 5,
+      "client_id": 1,
+      "tovar_id": 3
+    }
+  },
+  {
+    "model": "trade.sale",
+    "pk": 3,
+    "fields": {
+      "date": "2021-07-07",
+      "quantity": 7,
+      "client_id": 3,
+      "tovar_id": 1
+    }
+  },
+  {
+    "model": "trade.sale",
+    "pk": 4,
+    "fields": {
+      "date": "2021-01-07",
+      "quantity": 2,
+      "client_id": 1,
+      "tovar_id": 5
+    }
+  },
+  {
+    "model": "trade.sale",
+    "pk": 5,
+    "fields": {
+      "date": "2020-07-07",
+      "quantity": 1,
+      "client_id": 3,
+      "tovar_id": 2
+    }
+  },
+  {
+    "model": "trade.sale",
+    "pk": 6,
+    "fields": {
+      "date": "2022-01-01",
+      "quantity": 11,
+      "client_id": 2,
+      "tovar_id": 5
+    }
+  },
+  {
+    "model": "trade.sale",
+    "pk": 7,
+    "fields": {
+      "date": "2020-12-12",
+      "quantity": 4,
+      "client_id": 1,
+      "tovar_id": 2
+    }
+  }
+]

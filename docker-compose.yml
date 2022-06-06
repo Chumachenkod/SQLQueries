@@ -1,8 +1,14 @@
 version: "3.1"
 
 services:
-  redis:
-    image: redis
-    restart: always
+  postgreDB:
+    image: postgres
+    env_file:
+      - .env
     ports:
-      - "6379:6379"
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

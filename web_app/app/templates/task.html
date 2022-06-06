@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'header.html' %}
+<p style="display: none" id="TaskId">{{ id }}</p>
+<div style="width: calc(100% - 300px)" class="mx-3">
+    <p>Завдання:</p>
+    <div class="row row-cols-10 g-4">
+        {% for task in tasks %}
+        <div class="col">
+            <div class="card">
+                <button type="button" class="btn" id="{{ task.id }}" onclick="change_task(event)"
+                        name="task_btn">
+                    {{ forloop.counter }}
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-3">
+        <div style="display: flex; justify-content: space-between;">
+            <div class="alert alert-primary" role="alert" style="margin-right: 10px">
+                Задание: <span id="description"></span>
+            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary alert" style="white-space: nowrap" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                Предметна область
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content modal-content-custom">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ subject_title }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% load static %}
+                            <img src="{% static subject_img %}" width="100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%; display: flex">
+            <div style="display: flex; flex-direction: column; width: 40%; margin-right: 20px">
+                <label>
+                    Скрипт
+                </label>
+                <textarea style="resize: none; height: 140px; font-size: 14px" id="script"></textarea>
+            </div>
+            <div style="display: flex; flex-direction: column; width: 40%">
+                <label>
+                    Результат
+                </label>
+                <textarea style="resize: none; height: 140px; font-size: 14px" id="output" readonly="true"></textarea>
+            </div>
+        </div>
+        <div>
+            <button style="margin: 5px; font-size: 14px" onclick="test_syntax()">Перевірити запит</button>
+            <button style="margin: 5px; font-size: 14px" onclick="confirm_task()">Зарахувати завдання</button>
+            <button style="margin: 5px; font-size: 14px" onclick="next_task()" id="next_task_btn">Наступне завдання</button>
+            <button style="margin: 5px; font-size: 14px" onclick="grade_theme()">Завершити тему</button>
+        </div>
+    </div>
+</div>
+</body>
+{% autoescape off %}
+<script type="text/javascript">
+
+    let tasks = document.getElementsByName("task_btn")
+    tasks[0].classList.add("btn-secondary")
+    const script = document.getElementById('script');
+    const output = document.getElementById('output');
+    const description = document.getElementById("description")
+
+    let is_task_confirmed = false
+
+    $.ajax({
+        type: "POST",
+        url: window.location.href,
+        data: {
+            csrfmiddlewaretoken: getCookie('csrftoken')
+        },
+        success: function (data, textStatus, xhr) {
+            const tasks = data.tasks
+            description.textContent = tasks[0].description
+        }
+    });
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function test_syntax() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/check_syntax/",
+            data: {
+                script: script.value,
+                csrfmiddlewaretoken: getCookie('csrftoken')
+            },
+            error: function (data, textStatus, xhr) {
+                output.value = JSON.parse(data.responseText)['error']
+                $('#output').removeClass('text-success')
+                $('#output').addClass('text-danger')
+            },
+            success: function (data, textStatus, xhr) {
+                output.value = 'script successfully executed'
+                $('#output').removeClass('text-danger')
+                $('#output').addClass('text-success')
+            }
+        });
+    }
+
+    function confirm_task() {
+        is_task_confirmed = true
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/grade_task/",
+            data: {
+                script: script.value,
+                task: document.getElementById('TaskId').textContent,
+                csrfmiddlewaretoken: getCookie('csrftoken')
+            }
+        });
+    }
+
+    function change_task(event) {
+        to_task(event.target.id)
+    }
+
+    function next_task() {
+        let current_task = document.getElementById("TaskId").textContent
+        let tasks = document.getElementsByName("task_btn")
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].id === current_task) {
+                if (i === tasks.length - 1) {
+                    alert("err")
+                    break
+                }
+                return to_task(tasks[i + 1].id)
+            }
+        }
+    }
+
+    function to_task(task_id) {
+        let tasks = document.getElementsByName("task_btn")
+        let current_task = document.getElementById("TaskId").textContent
+        if (task_id === current_task) {
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/task/",
+            data: {
+                task_id: task_id,
+                csrfmiddlewaretoken: getCookie('csrftoken')
+            },
+            success: function (data, textStatus, xhr) {
+                for (let i = 0; i < tasks.length; i++) {
+                    if (tasks[i].id === current_task) {
+                        if (is_task_confirmed) {
+                            tasks[i].classList.add("btn-success")
+                        } else {
+                            tasks[i].classList.add("btn-warning")
+                        }
+                        is_task_confirmed = false
+                    }
+                    if (tasks[i].id === task_id) {
+                        tasks[i].classList.remove("btn-success", "btn-warning")
+                        tasks[i].classList.add("btn-secondary")
+                        if (i === tasks.length - 1) {
+                            document.getElementById("next_task_btn").classList.add("d-none")
+                        } else {
+                            document.getElementById("next_task_btn").classList.remove("d-none")
+                        }
+                    }
+                }
+                document.getElementById("description").textContent = data["description"]
+                document.getElementById("TaskId").textContent = task_id
+
+                document.getElementById("script").value = ""
+                document.getElementById("output").value = ""
+            }
+        });
+    }
+
+    function grade_theme() {
+        confirm_task()
+        window.location.href = '/home';
+    }
+
+    window.onbeforeunload = function () {
+        return "";
+    };
+
+
+    window.addEventListener("unload", function () {
+        let data = new FormData()
+        data.append("csrfmiddlewaretoken", getCookie("csrftoken"));
+        data.append("task_group", window.location.href.split('/')[window.location.href.split('/').length-2]);
+        navigator.sendBeacon("/finish_theme/", data);
+    });
+
+</script>
+{% endautoescape %}
+</html>

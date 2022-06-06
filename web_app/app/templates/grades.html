@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include 'header.html' %}
+<span style="margin: 20px">Оберіть тему:</span>
+<ol>
+    {% for theme in themes %}
+    <li style="margin: 10px 0">
+        <a href="/grade_theme/{{ theme.id }}" style="text-decoration: none; color: black">
+            {{ theme.description }}
+            ({{ theme.my_grade }}/{{ theme.max_grade }} балів)
+        </a>
+    </li>
+    {% endfor %}
+</ol>
+</body>
+</html>

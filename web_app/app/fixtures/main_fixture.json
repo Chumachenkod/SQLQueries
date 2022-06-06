@@ -1,0 +1,407 @@
+[
+  {
+    "model": "app.subjectarea",
+    "pk": 1,
+    "fields": {
+      "title": "Торгівля",
+      "schema": "subjects/subject_1.png"
+    }
+  },
+
+  {
+    "model": "app.user",
+    "pk": 1,
+    "fields": {
+      "password": "password",
+      "last_login": "2022-05-03 10:19:34.424601 +00:00",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "admin",
+      "last_name": "admin",
+      "email": "admin@gmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2022-04-30 18:35:15.555000 +00:00",
+      "avatar": "app/avatars/1.jpg"
+    }
+  },
+
+  {
+    "model": "app.theme",
+    "pk": 1,
+    "fields": {
+      "description": "Мова DQL. Запити до одного відношення без агрегатних функцій"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 2,
+    "fields": {
+      "description": "Мова DQL. Запити до одного відношення з агрегатними функціями"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 3,
+    "fields": {
+      "description": "Мова DQL. Запити до декількох відношення без підзапитів"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 4,
+    "fields": {
+      "description": "Мова DQL. Запити з використанням підзапитів (некорельованих)"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 5,
+    "fields": {
+      "description": "Мова DQL. Запити з використанням корельованних підзапитів"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 6,
+    "fields": {
+      "description": "Мова DML. Прості запити на додавання"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 7,
+    "fields": {
+      "description": "Мова DML. Запити на додавання"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 8,
+    "fields": {
+      "description": "Мова DQL. Запити з використанням умовного оператору CASE"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 29,
+    "fields": {
+      "description": "Мова DQL. Запити з використанням представлень (View) та узагальнених табличних виразів (CTE)"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 10,
+    "fields": {
+      "description": "Мова DQL та DML. Різноманітні запити, рівень складності 1"
+    }
+  },
+  {
+    "model": "app.theme",
+    "pk": 11,
+    "fields": {
+      "description": "Мова DQL та DML. Різноманітні запити, рівень складності 2"
+    }
+  },
+
+  {
+    "model": "app.theme_user",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "theme": 1
+    }
+  },
+  {
+    "model": "app.theme_user",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "theme": 2
+    }
+  },
+  {
+    "model": "app.theme_user",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "theme": 3
+    }
+  },
+  {
+    "model": "app.theme_user",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "theme": 4
+    }
+  },
+  {
+    "model": "app.theme_user",
+    "pk": 5,
+    "fields": {
+      "user": 1,
+      "theme": 5
+    }
+  },
+  {
+    "model": "app.theme_user",
+    "pk": 6,
+    "fields": {
+      "user": 1,
+      "theme": 6
+    }
+  },
+  {
+    "model": "app.theme_user",
+    "pk": 7,
+    "fields": {
+      "user": 1,
+      "theme": 7
+    }
+  },
+
+  {
+    "model": "app.taskgroup",
+    "pk": 1,
+    "fields": {
+      "theme_id": 1,
+      "subject_area_id": 1
+    }
+  },
+
+  {
+    "model": "app.task",
+    "pk": 1,
+    "fields": {
+      "description": "Вивести інформацію про товари, в назві яких є буквосполучення «ван» або «для», та ціна дорівнює одному із значень:100,400,500. Виводити всі атрибути із таблиці Tovar. Відсортувати результат за назвою товару за зменшенням, далі за ціною за зростанням. Необхідно використати: like,in, order by",
+      "correct_script": "Select *\nfrom trade_Tovar\nwhere (name like '%ван%' or name like '%для%') and price in (100,400,500)\norder by name desc,\nPrice \n",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 2,
+    "fields": {
+      "description": "Вивести коди клієнтів, які купили товари з кодом 1 (без повторів)",
+      "correct_script": "Select distinct id\nfrom trade_sale\nwhere tovar_id=1",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 3,
+    "fields": {
+      "description": "Вивести тільки прізвища клієнтів, телефон яких закінчуються на «34» та інформація про місто клієнта незаповнена.Відсортувати результуючий набір заномером клієнту за зростанням.Необхідно використати функцію: right ",
+      "correct_script": "Select last_name\nfrom trade_client\nwhere right(phone,2)='34' and city_id is Null\norder by id",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 4,
+    "fields": {
+      "description": "Вивести всі продажі (всі атрибути із таблиці Sale), де клієнти з кодами 1,5,10,15 купували товар з кодами від 1 до 10 включно.Необхідно використати: in, between",
+      "correct_script": "Select *\nfrom trade_Sale\nwhere client_id in(1,5,10,15) and\ntovar_id between 1 and 10",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 5,
+    "fields": {
+      "description": "Вивести всі угоди 2021 року (всі атрибути із таблиці Sale), в яких кількість товарів більш, ніж 5, але менш, ніж 10.Необхідно використати: Year, between",
+      "correct_script": "Select *\nfrom trade_Sale\nwhere extract(year from Date)=2021 and\nQuantity between 6 and 9",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 6,
+    "fields": {
+      "description": "Вивести інформацію про товари, в назві яких є буквосполучення «стол» або «стул», та зроблених НЕ із матеріалу МДФ і ціна яких менш, ніж 1000.",
+      "correct_script": "Select *\nfrom trade_Tovar\nwhere (name like '%стол%' or name like '%стул%') and Material<>'МДФ' and Price<1000",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 7,
+    "fields": {
+      "description": "Вивести для товарів першого сорту код та назву, їх ціну та ціну, зменшену вдвічі (назвіть зменшену ціну NewPrice). Відсортувати результуючий набор за зменшенням за ціною.",
+      "correct_script": "Select id, name, Price, Price*0,5 as NewPrice\nfrom trade_Tovar\nwhere Sort=1\norder by price desc \n",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 8,
+    "fields": {
+      "description": "Вивести коди товарів, які були продані в січні 2021 року (без повторів). Необхідно використати: year, month",
+      "correct_script": "Select distinct tovar_id\nfrom trade_Sale\nwhere extract(year from Date)=2021 and extract(month from Date)=1",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 9,
+    "fields": {
+      "description": "Вивести інформацію про товари у такому вигляді: у першому стовбці - код товару, у другому – назву товару, ціну та матеріал (застосувати конкатенацію строк, у якості символів – роздільників використати « » ). Першому стовпцю дайте назву «Номер», другому – «Інформація».",
+      "correct_script": "Select id as Номер, name || ' ' ||Price || ' ' || Material as Інформація\nfrom trade_Tovar",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 10,
+    "fields": {
+      "description": "Вивести інформацію про клієнтів (всі атрибути з таблиці Client), перша буква в прізвищі яких знаходіться в діапазоні від «В» до «П» включно.",
+      "correct_script": "Select *\nfrom trade_Client\nwhere left(last_name,1) between 'В' and 'Д'\n",
+      "time": 3,
+      "coefficient": 1,
+      "task_group_id": 1
+    }
+  },
+
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "in"
+    }
+  },
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "between"
+    }
+  },
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "order by"
+    }
+  },
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "right"
+    }
+  },
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "year"
+    }
+  },
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "month"
+    }
+  },
+  {
+    "model": "app.keyword",
+    "fields": {
+      "word": "like"
+    }
+  },
+
+  {
+    "model": "app.task_key_words",
+    "pk": 1,
+    "fields": {
+      "task": 1,
+      "keyword": "like"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 2,
+    "fields": {
+      "task": 1,
+      "keyword": "in"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 3,
+    "fields": {
+      "task": 1,
+      "keyword": "order by"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 4,
+    "fields": {
+      "task": 3,
+      "keyword": "right"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 5,
+    "fields": {
+      "task": 4,
+      "keyword": "between"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 6,
+    "fields": {
+      "task": 4,
+      "keyword": "in"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 7,
+    "fields": {
+      "task": 5,
+      "keyword": "year"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 8,
+    "fields": {
+      "task": 5,
+      "keyword": "in"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 9,
+    "fields": {
+      "task": 8,
+      "keyword": "year"
+    }
+  },
+  {
+    "model": "app.task_key_words",
+    "pk": 10,
+    "fields": {
+      "task": 8,
+      "keyword": "month"
+    }
+  }
+]
