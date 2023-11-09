@@ -130,7 +130,7 @@
                 error: function (data, textStatus, xhr) {
                     if (counter >= 5 &&  location.pathname.startsWith('/task')) {
                         clearTimeout(main_timer)
-                        alert("из-за того, что система не смогла распознать ваше лицо, тема была анулирована");
+                        alert("Оскільки система не змогла розпізнати ваше обличчя, тема була анульована.");
                         window.location = '/home'
                         return
                     }
