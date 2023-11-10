@@ -9,9 +9,10 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-#  web_app:
-#    build:
-#      - ./
+  web_app:
+    build: .
+    ports:
+      - "8000:8000"
 
 
 volumes:

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t&i5$^f&g#%2*o&g8a$mk!-^w-rcw^^lydm+r$u^lu42))w^)f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': 'postgreDB',
         'PORT': '5432',
     },
     'postgres_trade': {
@@ -89,7 +89,7 @@ DATABASES = {
         'NAME': 'trade',
         'USER': 'postgres',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': 'postgreDB',
         'PORT': '5432',
     }
 }

@@ -1,11 +1,17 @@
-FROM python:3.8-alpine
+FROM tensorflow/tensorflow:2.8.0
 
-COPY Pipfile Pipfie .
+COPY Pipfile .
+COPY Pipfile.lock .
 
-RUN cd SQLQueries/ && pip install pipenv && pipenv install && pipenv shell && cd web_app \
-    && python manage.py migrate app && python manage.py migrate trade --database postgres_trade  \
-    && python manage.py loaddata main_fixture && python manage.py loaddata trade_fixrure.json --database postgres_trade
+RUN apt install -y make automake gcc g++ subversion python3-dev
+
+RUN pip install pipenv && pipenv install --system
+
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+COPY . .
+
+WORKDIR web_app
 
 EXPOSE 8000
-COPY . .
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
